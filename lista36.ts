@@ -55,12 +55,69 @@ function IniciarPartida(inimigosTotais: number){
     let fimDeJogo: boolean = false
 
     do{
-
-        
-
-
-
+        numeroInimigos = numeroInimigos - MovimentarInimigos(numeroInimigos)
+        vidas = vidas - VerificarAtaqueInimigo()
+        inimigosDerrotados = inimigosDerrotados + VerificarAtaqueInimigo()
+        inimigosDerrotados = inimigosDerrotados + AtaqueTorres()
+        console.log("Restam mais" + vidas + "vidas")
+        if(vidas <= 0){
+            fimDeJogo = true
+            console.log("Fim de jogo, suas vidas chegaram a zero e você perdeu!")
+        }
+        else if(inimigosDerrotados == inimigosTotais){
+            fimDeJogo = true
+            console.log("Fim de jogo, você derrotou todos os inimigos e ganhou!")
+        }
     }while(!fimDeJogo)
+}
+
+function MovimentarInimigos(numeroInimigos: number): number{
+    tabuleiro.shift()
+    if(numeroInimigos != 0){
+        tabuleiro[9] = new Inimigo("orc", 10)
+        return 1
+    }
+    else{
+        tabuleiro[9] = undefined
+    }
+    return 0
+}
+
+function VerificarAtaqueInimigo(): number{
+    if(tabuleiro[0] = undefined){
+        return 1
+    }
+    return 0
+}
+
+function AtaqueTorres(): number{
+    let inimigosDerrotados = 0
+    torres.forEach((x, index) => {
+        if(x.Alcance == 1){
+            if(tabuleiro[index] != undefined){
+                return inimigosDerrotados = inimigosDerrotados + VerificarAbate(tabuleiro[index]!.ReceberDano(x.Ataque), index)
+            }
+        } else{
+            for (let i = index - (x.Alcance - 1); i <= index + (x.Alcance - 1); i++) {
+                if(tabuleiro[i] != undefined){
+                    return inimigosDerrotados = inimigosDerrotados + VerificarAbate(tabuleiro[i]!.ReceberDano(x.Ataque), i)
+
+                }
+                
+            }
+        }
+        
+    })
+
+}
+
+function VerificarAbate(vida: number, posicao: number): number{
+    if(vida <= 0){
+        tabuleiro[posicao] = undefined
+        return 1
+    }
+    return 0
+
 }
 
 
